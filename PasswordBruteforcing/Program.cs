@@ -18,10 +18,10 @@ namespace PasswordBruteforcing
                 Console.WriteLine("неизвестные места, как в примере ниже:");
                 Console.WriteLine("123****89");
                 passwordExample = Console.ReadLine();
-                Console.WriteLine("Теперь введите набор предполагаемых подряд");
-                passwordSighns = Console.ReadLine();
+                //Console.WriteLine("Теперь введите набор предполагаемых подряд");
+                passwordSighns = "123456789!@#$%";//Console.ReadLine();
                 Console.WriteLine("Предполагаемый список паролей:");
-                
+
                 WritePasswordList(passwordExample, passwordSighns);
 
                 Console.WriteLine();
@@ -39,15 +39,21 @@ namespace PasswordBruteforcing
             var password = passwordExample.ToArray();
 
             if (position == password.Length)
-                Console.WriteLine(MakeString(password));
-
-            for (int i = 0; i < password.Length; i++)
             {
-                if (passwordExample[position] == '*')
-                    password[position] = passwordSighns[i];
-                WritePasswordList(MakeString(password), passwordSighns, position+1);
+                Console.WriteLine(MakeString(password));
+                return;
             }
 
+            if (passwordExample[position] == '*')
+            {
+                for (int i = 0; i < passwordSighns.Length; i++)
+                {
+                    password[position] = passwordSighns[i];
+                    WritePasswordList(MakeString(password), passwordSighns, position + 1);
+                }
+            }
+            else
+                WritePasswordList(MakeString(password), passwordSighns, position + 1);
         }
 
         public static string MakeString(char[] passwordSighns)
